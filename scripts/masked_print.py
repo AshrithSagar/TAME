@@ -24,6 +24,8 @@ print('Project Root Dir:', ROOT_DIR)
 snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 img_dir = os.path.join(ROOT_DIR, 'images')
 
+use_cuda = False
+
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Generate mask for a given image-label pair with a given model')
@@ -43,7 +45,8 @@ def get_model(args):
     mdl = model_prep(args.model)
     mdl = Generic(mdl, args.layers.split(), args.version)
     restore(args, mdl, istrain=False)
-    mdl.cuda()
+    if use_cuda:
+        mdl.cuda()
     return mdl
 
 
@@ -74,7 +77,9 @@ def main():
     img = Image.open(os.path.join(img_dir, img_name))
     if img.size[0] == img.size[1] == crop_size:
         tsfm = torch.nn.Identity()
-    im = tsfm_val(img).unsqueeze(0).cuda()
+    im = tsfm_val(img).unsqueeze(0)
+    if use_cuda:
+        im = im.cuda()
     img = tsfm(img)
     img_name = os.path.splitext(img_name)
     img.save(os.path.join(heatmap_dir, f"{img_name[0]}{img_name[1]}"))

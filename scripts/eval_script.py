@@ -24,6 +24,8 @@ print('Project Root Dir:', ROOT_DIR)
 # Static paths
 snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 
+use_cuda = False
+
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Evaluation script')
@@ -49,7 +51,8 @@ def get_model(args):
     mdl = model_prep(args.model)
     mdl = Generic(mdl, args.layers.split(), args.version)
     restore(args, mdl, istrain=False)
-    mdl.cuda()
+    if use_cuda:
+        mdl.cuda()
     return mdl
 
 
@@ -99,7 +102,8 @@ def main():
                 with torch.inference_mode():
                     for idx, dat in enumerate(tqdm(val_loader, desc=f'Eval for {int(100 * (1 - percent))}%')):
                         imgs, labels = dat
-                        imgs, labels = imgs.cuda(), labels.cuda()
+                        if use_cuda:
+                            imgs, labels = imgs.cuda(), labels.cuda()
 
                         global_counter += 1
                         # forward pass

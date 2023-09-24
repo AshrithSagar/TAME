@@ -29,6 +29,8 @@ snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 EPOCH = 8
 num_workers = 4
 
+use_cuda = False
+
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Train script')
@@ -61,7 +63,8 @@ def save_checkpoint(args, state, filename):
 def get_model(args):
     mdl = model_prep(args.model)
     mdl = Generic(mdl, args.layers.split(), args.version)
-    mdl.cuda()
+    if use_cuda:
+        mdl.cuda()
     return mdl
 
 
@@ -148,7 +151,8 @@ def train(args):
 
         for idx, dat in enumerate(tq_loader):
             imgs, labels = dat
-            imgs, labels = imgs.cuda(), labels.cuda()
+            if use_cuda:
+                imgs, labels = imgs.cuda(), labels.cuda()
 
             # forward pass
             logits = model(imgs, labels)

@@ -1,6 +1,7 @@
 import os
-
 import torch
+
+use_cuda = False
 
 
 def restore(args, model, optimizer=None, istrain=True):
@@ -24,7 +25,10 @@ def restore(args, model, optimizer=None, istrain=True):
 
     if os.path.isfile(snapshot):
         print("=> loading checkpoint '{}'".format(snapshot))
-        checkpoint = torch.load(snapshot)
+        if use_cuda:
+            checkpoint = torch.load(snapshot)
+        else:
+            checkpoint = torch.load(snapshot, map_location=torch.device('cpu'))
         try:
             if istrain:
                 args.current_epoch = checkpoint['epoch'] + 1

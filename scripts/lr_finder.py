@@ -24,6 +24,8 @@ data_dir = os.path.join(ROOT_DIR, 'snapshots', 'data', 'LR')
 # Default parameters
 num_workers = 4
 
+use_cuda = False
+
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='LR finder')
@@ -45,7 +47,8 @@ def get_arguments():
 def get_model(args):
     mdl = model_prep(args.model)
     mdl = Generic(mdl, args.layers.split(), args.version)
-    mdl.cuda()
+    if use_cuda:
+        mdl.cuda()
     return mdl
 
 
@@ -86,7 +89,8 @@ def find_lr(args, init_value=1e-8, final_value=10., beta=0.999):
         batch_num += 1
         # As before, get the loss for this mini-batch of inputs/outputs
         inputs, labels = data
-        inputs, labels = inputs.cuda(), labels.cuda()
+        if use_cuda:
+            inputs, labels = inputs.cuda(), labels.cuda()
         optimizer.zero_grad()
 
         logits = net(inputs, labels)
