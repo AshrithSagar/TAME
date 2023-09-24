@@ -29,7 +29,7 @@ snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 EPOCH = 8
 num_workers = 4
 
-use_cuda = False
+use_cuda = torch.cuda.is_available()
 
 
 def get_arguments():

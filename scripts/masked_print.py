@@ -24,7 +24,7 @@ print('Project Root Dir:', ROOT_DIR)
 snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 img_dir = os.path.join(ROOT_DIR, 'images')
 
-use_cuda = False
+use_cuda = torch.cuda.is_available()
 
 
 def get_arguments():

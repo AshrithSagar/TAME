@@ -24,7 +24,7 @@ print('Project Root Dir:', ROOT_DIR)
 # Static paths
 snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
 
-use_cuda = False
+use_cuda = torch.cuda.is_available()
 
 
 def get_arguments():

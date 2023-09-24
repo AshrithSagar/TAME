@@ -1,7 +1,7 @@
 import os
 import torch
 
-use_cuda = False
+use_cuda = torch.cuda.is_available()
 
 
 def restore(args, model, optimizer=None, istrain=True):
