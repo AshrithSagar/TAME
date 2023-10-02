@@ -27,11 +27,11 @@ KAGGLE = os.path.exists('/kaggle/working/')
 if KAGGLE:
     snapshot_dir = os.path.join('/kaggle/working/TAME/snapshots')
     img_dir = os.path.join('/kaggle/input/fungal-patches-1/')
-    heatmap_dir = os.path.join('/kaggle/working/TAME/images/heatmaps/')
+    heatmap_parent_dir = os.path.join('/kaggle/working/TAME/images/heatmaps/')
 else:
     snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
     img_dir = os.path.join(ROOT_DIR, 'images')
-    heatmap_dir = os.path.join(ROOT_DIR, 'heatmaps')
+    heatmap_parent_dir = img_dir
 
 use_cuda = torch.cuda.is_available()
 
@@ -78,7 +78,7 @@ def main():
         transforms.ToTensor(),
     ])
 
-    heatmap_dir = os.path.join(heatmap_dir, "heatmaps",
+    heatmap_dir = os.path.join(heatmap_parent_dir, "heatmaps",
                                f'{args.model}_{args.version}', '')
     os.makedirs(heatmap_dir, exist_ok=True)
     img_name = args.name
