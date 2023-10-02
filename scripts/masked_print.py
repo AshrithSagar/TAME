@@ -26,8 +26,8 @@ print("Running on Kaggle", KAGGLE)
 
 # Static paths
 if KAGGLE:
-    snapshot_dir = os.path.join('/kaggle/working/TAME/snapshots')
-    img_dir = os.path.join('/kaggle/input/fungal-patches-1/')
+    snapshot_dir = os.path.join('/kaggle/working/TAME/snapshots/')
+    img_dir = os.path.join('/kaggle/input/fungal-patches-1/Fungal/')
     heatmap_parent_dir = os.path.join('/kaggle/working/TAME/images/heatmaps/')
 else:
     snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
