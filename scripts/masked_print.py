@@ -22,6 +22,7 @@ print('Project Root Dir:', ROOT_DIR)
 
 
 KAGGLE = os.path.exists('/kaggle/working/')
+print("Running on Kaggle", KAGGLE)
 
 # Static paths
 if KAGGLE:
