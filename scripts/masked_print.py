@@ -20,9 +20,21 @@ os.chdir('../')
 ROOT_DIR = os.getcwd()
 print('Project Root Dir:', ROOT_DIR)
 
+
+try:
+    print("Running on Kaggle:", KAGGLE)
+except NameError:
+    KAGGLE = False
+
 # Static paths
-snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
-img_dir = os.path.join(ROOT_DIR, 'images')
+if KAGGLE:
+    snapshot_dir = os.path.join('/kaggle/working/TAME/snapshots')
+    img_dir = os.path.join('/kaggle/input/fungal-patches-1/')
+    heatmap_dir = os.path.join('/kaggle/working/TAME/images/heatmaps/')
+else:
+    snapshot_dir = os.path.join(ROOT_DIR, 'snapshots')
+    img_dir = os.path.join(ROOT_DIR, 'images')
+    heatmap_dir = os.path.join(ROOT_DIR, 'heatmaps')
 
 use_cuda = torch.cuda.is_available()
 
@@ -69,7 +81,7 @@ def main():
         transforms.ToTensor(),
     ])
 
-    heatmap_dir = os.path.join(img_dir, "heatmaps",
+    heatmap_dir = os.path.join(heatmap_dir, "heatmaps",
                                f'{args.model}_{args.version}', '')
     os.makedirs(heatmap_dir, exist_ok=True)
     img_name = args.name
